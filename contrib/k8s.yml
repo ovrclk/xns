@@ -1,0 +1,42 @@
+---
+apiVersion: "extensions/v1beta1"
+kind: "Deployment"
+metadata:
+  name: "xns"
+  namespace: "default"
+  labels:
+    app: "xns"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: "xns"
+  template:
+    metadata:
+      labels:
+        app: "xns"
+    spec:
+      hostNetwork: true
+      containers:
+      - name: "xns"
+        image: "quay.io/ovrclk/xns"
+        ports:
+          - name: udp
+            containerPort: 53
+        command:
+          - "xns"
+          - "--bind"
+          - "0.0.0.0:$(XNS_BIND_PORT)"
+          - "--root"
+          - "$(XNS_ROOT_DOMAIN)"
+        env:
+          - name: XNS_BIND_PORT
+            valueFrom:
+              configMapKeyRef:
+                name: xns-config
+                key: xns.port
+          - name: XNS_ROOT_DOMAIN
+            valueFrom:
+              configMapKeyRef:
+                name: xns-config
+                key: xns.root
