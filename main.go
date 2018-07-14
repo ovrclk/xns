@@ -20,7 +20,7 @@ var cmd = &cobra.Command{
 
 func init() {
 	cmd.PersistentFlags().StringVarP(&addr, "bind", "b", "0.0.0.0:53", "address to bind (udp)")
-	cmd.PersistentFlags().StringVarP(&root, "root", "r", "xns.akash.network", "root domain (example: xns.akash.network)")
+	cmd.PersistentFlags().StringVarP(&root, "root", "r", "aksh.io", "root domain (example: aksh.io)")
 }
 
 func main() {
@@ -41,5 +41,5 @@ func doStart(addr, root string) {
 }
 
 var desc = `xns is a simple and fast wildcard DNS service for any IP addressm,
-written in go and inspired by xip.io. xns powers xns.akash.network.
+written in go and inspired by xip.io. xns powers aksh.io.
 `
