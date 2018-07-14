@@ -1,4 +1,4 @@
-IMAGE: quay.io/ovrclk/xns
+IMAGE = quay.io/ovrclk/xns
 
 test:
 	go test ./...
@@ -15,7 +15,10 @@ deps:
 	go get github.com/spf13/cobra
 
 image:
-	docker build . -t quay.io/ovrclk/xns
+	docker build . -t $(IMAGE)
+
+image-push:
+	docker push $(IMAGE)
 
 install:
 	go install .
