@@ -3,7 +3,7 @@ package handler
 import "testing"
 
 func TestResolve(t *testing.T) {
-	h := &Handler{RootDomain: "example.com"}
+	h := New("example.com")
 	tests := []struct {
 		input  string
 		output string

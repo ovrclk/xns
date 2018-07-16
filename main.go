@@ -34,7 +34,7 @@ func doStart(addr, root string) {
 	log.Println("starting DNS server, binding to:", addr)
 	log.Println("resolving wildcard addresses for domain:", root)
 	srv := &dns.Server{Addr: addr, Net: "udp"}
-	srv.Handler = &handler.Handler{RootDomain: root}
+	srv.Handler = handler.New(root)
 	if err := srv.ListenAndServe(); err != nil {
 		log.Fatalf("Failed to set udp listener %s\n", err.Error())
 	}

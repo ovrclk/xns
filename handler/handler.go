@@ -13,16 +13,25 @@ import (
 
 type Handler struct {
 	RootDomain string
+
+	dotRegexp, dashRegexp *regexp.Regexp
+}
+
+func New(rootDomain string) *Handler {
+	dotted, _ := regexp.Compile(fmt.Sprintf(`(\b\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\b).%s.`, rootDomain))
+	dashed, _ := regexp.Compile(fmt.Sprintf(`(\b\d{1,3}\-\d{1,3}\-\d{1,3}\-\d{1,3}\b).%s.`, rootDomain))
+	return &Handler{
+		RootDomain: rootDomain,
+		dotRegexp:  dotted,
+		dashRegexp: dashed,
+	}
 }
 
 func (this *Handler) Resolve(name string) string {
-	dotted, _ := regexp.Compile(fmt.Sprintf(`(\b\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\b).%s.`, this.RootDomain))
-	if s := dotted.FindStringSubmatch(name); len(s) > 0 {
+	if s := this.dotRegexp.FindStringSubmatch(name); len(s) > 0 {
 		return s[len(s)-1]
 	}
-
-	dashed, _ := regexp.Compile(fmt.Sprintf(`(\b\d{1,3}\-\d{1,3}\-\d{1,3}\-\d{1,3}\b).%s.`, this.RootDomain))
-	if s := dashed.FindStringSubmatch(name); len(s) > 0 {
+	if s := this.dashRegexp.FindStringSubmatch(name); len(s) > 0 {
 		return strings.Replace(s[len(s)-1], "-", ".", -1)
 	}
 	return ""
