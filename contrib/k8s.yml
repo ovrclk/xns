@@ -29,6 +29,10 @@ spec:
           - "0.0.0.0:$(XNS_BIND_PORT)"
           - "--root"
           - "$(XNS_ROOT_DOMAIN)"
+          - "--ip"
+          - "$(XNS_PUBLIC_IP)"
+          - "--ns"
+          - "$(XNS_NAMESERVERS)"
         env:
           - name: XNS_BIND_PORT
             valueFrom:
@@ -40,3 +44,13 @@ spec:
               configMapKeyRef:
                 name: xns-config
                 key: xns.root
+          - name: XNS_PUBLIC_IP
+            valueFrom:
+              configMapKeyRef:
+                name: xns-config
+                key: xns.ip
+          - name: XNS_NAMESERVERS
+            valueFrom:
+              configMapKeyRef:
+                name: xns-config
+                key: xns.ns

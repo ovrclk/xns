@@ -57,10 +57,14 @@ $ dig +short foo.127.0.0.1.aksh.io @localhost
 
 ### Kubernetes
 
-Create a config map and specify the root domain and port by setting `xns.root` and `xns.port` variables respectively.
+Create a config map and specify the root domain and port by setting `xns.root`, `xns.ip`, `xns.ns` and `xns.port` variables respectively.
 
 ```
-$ kubectl create configmap xns-config --from-literal=xns.root=aksh.io --from-literal=xns.port=53
+$ kubectl create configmap xns-config \
+  --from-literal=xns.root=aksh.io \
+  --from-literal=xns.port=53 \
+  --from-literal=xns.ip=[PUBLIC_IP] \
+  --from-literal=xns.ns=ns1.aksh.io,ns2.aksh.io
 $ kubectl create -f https://raw.githubusercontent.com/ovrclk/xns/master/contrib/k8s.yml
 ```
 
